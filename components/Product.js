@@ -8,9 +8,11 @@ import {loadStripe} from '@stripe/stripe-js';
 
 function Product(props) {
   const Router= useRouter();
+  const stripe= useStripe();
+  const elements= useElements();
 
-  const PUBLIC_KEY= "pk_test_51L3VYgKqeiMl7ByHxz6yT5y2hd1T44bZfIScbgz50JkJkbuStKovE8r1aaDnXKThgdjjda0loltrXPQ8tjoE5bIH00894ZjJ2j";
-  const stripeTestPromise= loadStripe(PUBLIC_KEY);
+  // const PUBLIC_KEY= "pk_test_51L3VYgKqeiMl7ByHxz6yT5y2hd1T44bZfIScbgz50JkJkbuStKovE8r1aaDnXKThgdjjda0loltrXPQ8tjoE5bIH00894ZjJ2j";
+  // const stripeTestPromise= loadStripe(PUBLIC_KEY);
     
   
   const [success,setSuccess]= useState(false);
@@ -56,7 +58,7 @@ function Product(props) {
       type: "card",
       card: elements.getElement(CardElement)
     })
-
+console.log(error);
     if (!error){
       try{
         const { data } = await axios.default.post('https://se-lecture-8-node-vercel-h814dy0vt-desoukya-gmailcom.vercel.app/api/orders', {
@@ -72,13 +74,12 @@ function Product(props) {
       }
     }
     else {
-      setMessage("Error "+ error)
+      setMessage("Error "+ error.message)
      }
       
   };
 
-  const stripe= useStripe();
-  const elements= useElements();
+  
 
   return (
     <div className="container mx-auto px-6">
@@ -99,7 +100,7 @@ function Product(props) {
           </br>
 
           <div>
-            <Elements stripe= {stripeTestPromise}>
+            {/* <Elements stripe= {stripeTestPromise}> */}
               {!success ? 
                 <form onSubmit={handleNewOrder}>
                   <fieldset className='FormGroup'>
@@ -118,10 +119,10 @@ function Product(props) {
                   </div>     
                 </form>  : 
                 <div>
-                  <h2>hhh</h2>
+                  <h2></h2>
                 </div> 
               }  
-            </Elements>
+            {/* </Elements> */}
           </div>
           
           <div>
